@@ -1,9 +1,10 @@
 const player = document.getElementById('player');
 const obstacle = document.querySelector('.obstacle');
 const gameArea = document.getElementById('gameArea');
+const platform = document.querySelector('.platform');
 
 let playerX = 50;
-let playerY = 350; // 400px (altura da área do jogo) - 50px (altura do jogador) - 50px (altura da plataforma)
+let playerY = gameArea.offsetHeight - platform.offsetHeight - 50; // Ajustar para ficar sobre a plataforma
 let playerVelocityY = 0;
 let gravity = 0.6;
 let isJumping = false;
@@ -16,7 +17,7 @@ const playerWidth = 50;
 const playerHeight = 50;
 const obstacleWidth = 50;
 const obstacleHeight = 50;
-const platformHeight = 50;
+const platformHeight = platform.offsetHeight;
 
 // Função de atualização do jogo
 function updateGame() {
@@ -34,9 +35,9 @@ function updateGame() {
     }
     playerY += playerVelocityY;
 
-    // Checagem se o jogador está no chão
+    // Checagem se o jogador está no chão (em cima da plataforma)
     if (playerY >= gameArea.offsetHeight - platformHeight - playerHeight) {
-        playerY = gameArea.offsetHeight - platformHeight - playerHeight;
+        playerY = gameArea.offsetHeight - platformHeight - playerHeight; // Coloca o jogador sobre a plataforma
         isJumping = false;
         isOnGround = true;
         playerVelocityY = 0;
@@ -51,7 +52,7 @@ function updateGame() {
         resetPlayer();
     }
 
-    requestAnimationFrame(updateGame);
+    requestAnimationFrame(updateGame); // Mantém o loop de atualização
 }
 
 // Função para verificar colisão
