@@ -1,5 +1,6 @@
 const player = document.getElementById('player');
-const obstacle = document.querySelector('.obstacle');
+const obstacles = document.querySelectorAll('.obstacle');
+const exitDoor = document.getElementById('exitDoor');
 const gameArea = document.getElementById('gameArea');
 const platform = document.querySelector('.platform');
 
@@ -15,8 +16,6 @@ let playerSpeed = 5;
 
 const playerWidth = 50;
 const playerHeight = 50;
-const obstacleWidth = 50;
-const obstacleHeight = 50;
 const platformHeight = platform.offsetHeight;
 
 // Função de atualização do jogo
@@ -47,8 +46,16 @@ function updateGame() {
     player.style.left = playerX + 'px';
     player.style.top = playerY + 'px';
 
-    // Checar colisão com obstáculo
-    if (checkCollision(playerX, playerY, playerWidth, playerHeight, obstacle.offsetLeft, obstacle.offsetTop, obstacleWidth, obstacleHeight)) {
+    // Checar colisão com obstáculos
+    obstacles.forEach(obstacle => {
+        if (checkCollision(playerX, playerY, playerWidth, playerHeight, obstacle.offsetLeft, obstacle.offsetTop, obstacle.offsetWidth, obstacle.offsetHeight)) {
+            resetPlayer();
+        }
+    });
+
+    // Checar colisão com a porta de saída
+    if (checkCollision(playerX, playerY, playerWidth, playerHeight, exitDoor.offsetLeft, exitDoor.offsetTop, exitDoor.offsetWidth, exitDoor.offsetHeight)) {
+        alert('Parabéns! Você venceu o jogo!');
         resetPlayer();
     }
 
